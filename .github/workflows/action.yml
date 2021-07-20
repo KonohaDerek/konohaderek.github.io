@@ -23,7 +23,7 @@ jobs:
         # extended: true
 
     - name: Build
-      run: hugo --minify --config=./src/config.toml --source=src
+      run: hugo --minify --config=config.toml --source=src
 
     - name: GitHub Pages
       if: success()
