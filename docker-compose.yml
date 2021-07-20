@@ -1,0 +1,11 @@
+version: "3.7"
+
+services: 
+  hugo:
+    image: konoha/hugo
+    build: .
+    tty: true
+    volumes:
+      - ./src:/src
+    ports:
+      - 13133:13133
