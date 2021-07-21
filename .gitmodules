@@ -1,3 +1,6 @@
 [submodule "src/themes/beautifulhugo"]
 	path = src/themes/beautifulhugo
 	url = https://github.com/appleboy/blog-theme.git
+[submodule "src/themes/hugo-theme-stack"]
+	path = src/themes/hugo-theme-stack
+	url = https://github.com/CaiJimmy/hugo-theme-stack/
