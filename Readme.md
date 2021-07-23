@@ -13,4 +13,4 @@
 5. git submodule add https://github.com/vaga/hugo-theme-m10c.git src/themes/m10c
 6. >> echo theme = \"m10c\" >> config.toml
 7. >> hugo new posts/my-first-post.md
-8. >> hugo --port=13133 -D --watch
+8. >> hugo server --port=13133 -D --watch
