@@ -53,40 +53,39 @@ Output: [8,9,9,9,0,0,0,1]
 1. 看到這題目很直覺得知道是 `LinkList` 的題目，又有規律性，看起來就是一個可以用遞迴簡單處理的東西
 
 1. 實際解法
-``` C#
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     public int val;
- *     public ListNode next;
- *     public ListNode(int val=0, ListNode next=null) {
- *         this.val = val;
- *         this.next = next;
- *     }
- * }
- */
-public class Solution {
-    public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
-             return Calculation(l1,l2,0);
+    ``` C#
+    /**
+    * Definition for singly-linked list.
+    * public class ListNode {
+    *     public int val;
+    *     public ListNode next;
+    *     public ListNode(int val=0, ListNode next=null) {
+    *         this.val = val;
+    *         this.next = next;
+    *     }
+    * }
+    */
+    public class Solution {
+        public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
+                return Calculation(l1,l2,0);
 
-        }
-
-        private ListNode Calculation(ListNode l1, ListNode l2 , int add) {
-            if(l1 == null && l2 == null && add ==0) {
-                return null;
             }
-             var result = (l1?.val ?? 0) + (l2?.val ?? 0) + add;
-            var node_value = result % 10;
-            var next_add_value = result /10;
 
-            return new ListNode(node_value ,Calculation(l1?.next , l2?.next , next_add_value ) ) ;
-        }
+            private ListNode Calculation(ListNode l1, ListNode l2 , int add) {
+                if(l1 == null && l2 == null && add ==0) {
+                    return null;
+                }
+                var result = (l1?.val ?? 0) + (l2?.val ?? 0) + add;
+                var node_value = result % 10;
+                var next_add_value = result /10;
 
-}
-```
+                return new ListNode(node_value ,Calculation(l1?.next , l2?.next , next_add_value ) ) ;
+            }
+
+    }
+    ```
 
 1. 執行效能
-
-![](../../resources/images/2021-07-24-CSharp/Performance.JPG)
+![](./img/Performance.JPG)
 
 
