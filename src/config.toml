@@ -1,4 +1,4 @@
-baseURL = "https://konohaderek.github.io/Blog_hugo/"
+baseURL = "https://www.k-derek.dev/"
 enablebaseurl = "https://username.github.io"
 languageCode = "zh-tw"
 title = "德瑞克小窩"
