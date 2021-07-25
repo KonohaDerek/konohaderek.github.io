@@ -1,5 +1,5 @@
 baseURL = "https://www.k-derek.dev/"
-enablebaseurl = "https://username.github.io"
+enablebaseurl = "https://konohaderek.github.io"
 languageCode = "zh-tw"
 title = "德瑞克小窩"
 theme = "beautifulhugo"

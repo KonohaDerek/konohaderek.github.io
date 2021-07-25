@@ -1,6 +1,6 @@
 ---
-title: "golang - Add Two Numbers"
-subtitle: "golang - Add Two Numbers"
+title: "php - Add Two Numbers"
+subtitle: "php - Add Two Numbers"
 date: 2021-07-25T17:23:13Z
 tags:
   - "php"
