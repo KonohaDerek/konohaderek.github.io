@@ -1,5 +1,5 @@
 ---
-title: "Ｄocker dotnet-symbol 安裝方式"
+title: "Docker dotnet-symbol 安裝方式"
 date: 2021-08-03T08:31:59Z
 tags:
   - "生活記事"
