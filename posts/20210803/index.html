@@ -1,0 +1,217 @@
+<!doctype html><html lang=zh-tw itemscope itemtype=http://schema.org/WebPage>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Docker dotnet-symbol 安裝方式 - 德瑞克小窩</title>
+<meta name=description content="緣由 今日前同事在line上面問我說要如何安裝 dotnet-symbol ？ 因為他在安裝上出現下面錯誤
+Could not execute because the application was not found or a compatible .NET SDK is not installed. Possible reasons for this include: * You intended to execute a .NET program: The application 'tool' does not exist. * You intended to execute a .NET SDK command: It was not possible to find any installed .NET SDKs. Install a .NET SDK from: https://aka.ms/dotnet-download 看了一下，他的環境是我之前用的 Docker ，裡面用的 base image 是 mcr.">
+<meta name=author content="Derek"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"德瑞克小窩","url":"https:\/\/www.k-derek.dev\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/www.k-derek.dev\/"}</script>
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.k-derek.dev\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/www.k-derek.dev\/posts\/20210803\/","name":"Docker dotnet symbol 安裝方式"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Derek"},"headline":"Docker dotnet-symbol 安裝方式","description":"緣由 今日前同事在line上面問我說要如何安裝 dotnet-symbol ？ 因為他在安裝上出現下面錯誤\nCould not execute because the application was not found or a compatible .NET SDK is not installed. Possible reasons for this include: * You intended to execute a .NET program: The application \u0026#39;tool\u0026#39; does not exist. * You intended to execute a .NET SDK command: It was not possible to find any installed .NET SDKs. Install a .NET SDK from: https:\/\/aka.ms\/dotnet-download 看了一下，他的環境是我之前用的 Docker ，裡面用的 base image 是 mcr.","inLanguage":"zh-tw","wordCount":110,"datePublished":"2021-08-03T08:31:59","dateModified":"2021-08-03T08:31:59","image":"https:\/\/www.k-derek.dev\/img\/avatar-icon.png","keywords":["生活記事"],"mainEntityOfPage":"https:\/\/www.k-derek.dev\/posts\/20210803\/","publisher":{"@type":"Organization","name":"https:\/\/www.k-derek.dev\/","logo":{"@type":"ImageObject","url":"https:\/\/www.k-derek.dev\/img\/avatar-icon.png","height":60,"width":60}}}</script>
+<meta property="og:title" content="Docker dotnet-symbol 安裝方式">
+<meta property="og:description" content="緣由 今日前同事在line上面問我說要如何安裝 dotnet-symbol ？ 因為他在安裝上出現下面錯誤
+Could not execute because the application was not found or a compatible .NET SDK is not installed. Possible reasons for this include: * You intended to execute a .NET program: The application 'tool' does not exist. * You intended to execute a .NET SDK command: It was not possible to find any installed .NET SDKs. Install a .NET SDK from: https://aka.ms/dotnet-download 看了一下，他的環境是我之前用的 Docker ，裡面用的 base image 是 mcr.">
+<meta property="og:image" content="https://www.k-derek.dev/img/avatar-icon.png">
+<meta property="og:url" content="https://www.k-derek.dev/posts/20210803/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="德瑞克小窩">
+<meta name=twitter:title content="Docker dotnet-symbol 安裝方式">
+<meta name=twitter:description content="緣由 今日前同事在line上面問我說要如何安裝 dotnet-symbol ？ 因為他在安裝上出現下面錯誤
+Could not execute because the application was not found or a compatible .NET SDK is not installed. Possible reasons for this include: * You …">
+<meta name=twitter:image content="https://www.k-derek.dev/img/avatar-icon.png">
+<meta name=twitter:card content="summary">
+<link href=https://www.k-derek.dev/img/favicon.ico rel=icon type=image/x-icon>
+<meta name=generator content="Hugo 0.87.0"><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous>
+<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css>
+<link rel=stylesheet href=https://www.k-derek.dev/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+<link rel=stylesheet href=https://www.k-derek.dev/css/highlight.min.css><link rel=stylesheet href=https://www.k-derek.dev/css/codeblock.css>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class=container-fluid>
+<div class=navbar-header>
+<button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>開關導覽</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=https://www.k-derek.dev/>德瑞克小窩</a>
+</div>
+<div class="collapse navbar-collapse" id=main-navbar>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a title=Blog href=/> Blog</a>
+</li>
+<li>
+<a title=Tags href=/tags> Tags</a>
+</li>
+</ul>
+</div>
+<div class=avatar-container>
+<div class=avatar-img-border>
+<a title=德瑞克小窩 href=https://www.k-derek.dev/>
+<img class=avatar-img src=https://www.k-derek.dev/img/avatar-icon.png alt=德瑞克小窩>
+</a>
+</div>
+</div>
+</div>
+</nav>
+<header class=header-section>
+<div class="intro-header no-img">
+<div class=container>
+<div class=row>
+<div class="col-md-10 col-md-offset-1">
+<div class=posts-heading>
+<h1>Docker dotnet-symbol 安裝方式</h1>
+<hr class=small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class=container role=main>
+<div class=row>
+<div class="col-md-10 col-md-offset-1">
+<article role=main class=blog-post>
+<h2 id=緣由>緣由</h2>
+<p>今日前同事在line上面問我說要如何安裝 <code>dotnet-symbol</code> ？
+因為他在安裝上出現下面錯誤</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>Could not execute because the application was not found or a compatible .NET SDK is not installed.
+Possible reasons for this include:
+  * You intended to execute a .NET program:
+      The application &#39;tool&#39; does not exist.
+  * You intended to execute a .NET SDK command:
+      It was not possible to find any installed .NET SDKs.
+      Install a .NET SDK from:
+        https://aka.ms/dotnet-download
+</code></pre></div><p>看了一下，他的環境是我之前用的 <code>Docker</code> ，裡面用的 <code>base image</code> 是 <code>mcr.microsoft.com/dotnet/aspnet:5.0</code></p>
+<p>這個 <code>image</code> 裡面只會有 <code>runtime</code> 難怪他不能安裝，那麼就來實驗看看怎麼安裝吧！</p>
+<h2 id=安裝方式>安裝方式</h2>
+<p>其實也很簡單，因為該 <code>image</code> 為 <code>ubuntu base</code>，那麼我們就直接來用 <code>apt-get</code> 安裝吧</p>
+<ol>
+<li>安裝</li>
+</ol>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+dpkg --purge packages-microsoft-prod <span class=o>&amp;&amp;</span> dpkg -i packages-microsoft-prod.deb
+apt-get update
+apt-get install -y dotnet-sdk-5.0
+dotnet tool install -g dotnet-symbol
+</code></pre></div><p>安裝後就可以使用拉～</p>
+<div class=blog-tags>
+<a href=https://www.k-derek.dev//tags/%E7%94%9F%E6%B4%BB%E8%A8%98%E4%BA%8B/>生活記事</a>&nbsp;
+</div>
+<hr>
+<section id=social-share>
+<div class="list-inline footer-links">
+<div class=share-box aria-hidden=true>
+<ul class=share>
+<li>
+<a href="//twitter.com/share?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f&text=Docker%20dotnet-symbol%20%e5%ae%89%e8%a3%9d%e6%96%b9%e5%bc%8f&via=" target=_blank title="Share on Twitter">
+<i class="fab fa-twitter"></i>
+</a>
+</li>
+<li>
+<a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f" target=_blank title="Share on Facebook">
+<i class="fab fa-facebook"></i>
+</a>
+</li>
+<li>
+<a href="//reddit.com/submit?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f&title=Docker%20dotnet-symbol%20%e5%ae%89%e8%a3%9d%e6%96%b9%e5%bc%8f" target=_blank title="Share on Reddit">
+<i class="fab fa-reddit"></i>
+</a>
+</li>
+<li>
+<a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f&title=Docker%20dotnet-symbol%20%e5%ae%89%e8%a3%9d%e6%96%b9%e5%bc%8f" target=_blank title="Share on LinkedIn">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+<li>
+<a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f&title=Docker%20dotnet-symbol%20%e5%ae%89%e8%a3%9d%e6%96%b9%e5%bc%8f" target=_blank title="Share on StumbleUpon">
+<i class="fab fa-stumbleupon"></i>
+</a>
+</li>
+<li>
+<a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f20210803%2f&description=Docker%20dotnet-symbol%20%e5%ae%89%e8%a3%9d%e6%96%b9%e5%bc%8f" target=_blank title="Share on Pinterest">
+<i class="fab fa-pinterest"></i>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<h4 class=see-also>其他相關</h4>
+<ul>
+<li><a href=/posts/20210822/>20210822</a></li>
+<li><a href=/posts/20210809/>20210809</a></li>
+<li><a href=/posts/20210728/>20210728</a></li>
+</ul>
+</article>
+<ul class="pager blog-pager">
+<li class=previous>
+<a href=https://www.k-derek.dev/posts/20210728/ data-toggle=tooltip data-placement=top title=20210728>&larr; 上一篇</a>
+</li>
+<li class=next>
+<a href=https://www.k-derek.dev/posts/20210804/ data-toggle=tooltip data-placement=top title="VSCode Dev Container 測試">下一篇 &rarr;</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<footer class=post-footer>
+<div class=container>
+<div class=row>
+<div class="col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+<li>
+<a href=mailto:peter890701@gmail.com title="Email me">
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://github.com/https://github.com/KonohaDerek title=GitHub>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href title=RSS>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+</ul>
+<p class="credits copyright text-muted">
+Derek
+&nbsp;&bull;&nbsp;&copy;
+2021
+&nbsp;&bull;&nbsp;
+<a href=https://www.k-derek.dev/>德瑞克小窩</a>
+</p>
+<p class="credits theme-by text-muted">
+由 <a href=https://gohugo.io>Hugo v0.87.0</a> 提供 &nbsp;&bull;&nbsp; 主題 <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> 移植自 <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer>
+<script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script src=https://www.k-derek.dev/js/main.js></script>
+<script src=https://www.k-derek.dev/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script>
+<div class=back-to-top id=back-to-top>
+<i class="fas fa-angle-double-up"></i>
+</div>
+</body>
+</html>

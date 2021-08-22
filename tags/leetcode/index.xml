@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>LeetCode on 德瑞克小窩</title><link>https://www.k-derek.dev/tags/leetcode/</link><description>Recent content in LeetCode on 德瑞克小窩</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><managingEditor>peter890701@gmail.com (Derek)</managingEditor><webMaster>peter890701@gmail.com (Derek)</webMaster><lastBuildDate>Sun, 25 Jul 2021 15:09:15 +0000</lastBuildDate><atom:link href="https://www.k-derek.dev/tags/leetcode/index.xml" rel="self" type="application/rss+xml"/><item><title>php - Add Two Numbers</title><link>https://www.k-derek.dev/posts/20210725/</link><pubDate>Sun, 25 Jul 2021 15:09:15 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210725/</guid><description>今天用php來改寫吧! Let&amp;rsquo;s Go!!!
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself. Example 1 : Input: l1 = [2,4,3], l2 = [5,6,4] Output: [7,0,8] Explanation: 342 + 465 = 807.</description></item><item><title>golang - Add Two Numbers</title><link>https://www.k-derek.dev/posts/20210724/</link><pubDate>Fri, 23 Jul 2021 17:23:13 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210724/</guid><description>今天寫的題目跟昨天一樣
+不過我們來改為用Golang 寫吧!
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself. Example 1 : Input: l1 = [2,4,3], l2 = [5,6,4] Output: [7,0,8] Explanation: 342 + 465 = 807.</description></item><item><title>一日一LeetCode 計畫</title><link>https://www.k-derek.dev/posts/20210723/</link><pubDate>Fri, 23 Jul 2021 17:23:13 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210723/</guid><description>今天開始來實行一日一 LeetCode 計畫，除了讓自己更熟悉語言外，也想多練習更多的演算法
+一開始也想不到要寫什麼side project
+那麼就來刷刷 LeetCode 吧
+從一開始註冊到現在也過了超久的(我就懶)
+接下來會利用各種不同的語言寫同一個題目
+目前計畫的有 C# , golang , php , typescript
+希望能持續進步這些語言
+話不多說我們就開始吧
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself.</description></item></channel></rss>

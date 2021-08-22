@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>德瑞克小窩</title><link>https://www.k-derek.dev/</link><description>Recent content on 德瑞克小窩</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><managingEditor>peter890701@gmail.com (Derek)</managingEditor><webMaster>peter890701@gmail.com (Derek)</webMaster><lastBuildDate>Sun, 22 Aug 2021 15:46:29 +0000</lastBuildDate><atom:link href="https://www.k-derek.dev/index.xml" rel="self" type="application/rss+xml"/><item><title>20210822</title><link>https://www.k-derek.dev/posts/20210822/</link><pubDate>Sun, 22 Aug 2021 15:46:29 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210822/</guid><description>又過了10天沒更新了WWWWWW 真的很容易就忘記要更新日誌這件事情
+不過還是來記錄一下近況吧!
+最近換到了新公司，比之前公司更遠了，遠到的有點不太習慣，大概是因為上一份工作離家真的很近，走路只要30分鐘就可以到，騎車不到10分鐘 現在去公司騎車都要30分鐘了 不過因為是疫情期間，只好忍耐了。
+這次的公司主要是用 golang 開發的，所以我也必須要學會golang，好在之前有稍微寫過，不算難上手 但是還是很不習慣有一堆東西還要另外安裝，基本上就是被 visual studio 養壞了 像是使用 grpc &amp;amp; graphql 各種的 command not found 然後就必須自己手動 go get
+現在開始有點擔心自己的 C# 會不會因此被遺忘掉了，所以決定來寫幾個常用的 C# SDK 吧! 目前規劃的有 Line 、 Telegram 、 Slack 跟 Teams ， Discore 還在考慮中 也想把之前寫的 Excel 工具 再用 .net6 重新改寫一遍，但是我也還沒想好要用哪一套 Excel library處理，希望有人可以給我意見吧
+目前就這樣繼續加油吧!</description></item><item><title>20210812</title><link>https://www.k-derek.dev/posts/20210812/</link><pubDate>Thu, 12 Aug 2021 13:55:21 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210812/</guid><description>這幾日試著用 golang 建立一個 CleanArchitecture 的實作。 希望能用短短的時間來複習前幾日學習 DDD 的成果 也因為後面工作會稍微的用到 golang 所以就來重拾很久沒寫的 golang 希望不要跟以前差太多 也為了這個目標新開了一個專案 GolangCleanArchitecture
+希望這個小專案能夠有完成的一天（笑）
+這邊來說說目前遇到的小困擾吧
+package name 的引用，在過去都是在同一個 package name 下進行開發 ， 這次特別拆分了 package name 導致在引用的過程出現了很醜的程式碼，這部分要再來找找解決方案了
+interface 的使用，在 Repository 的部份想用介面做隔離，降低相依性，但是沒辦法把 struct 拆出去，只能跟 interface 在同一層裡面，這樣就沒辦法把實作的地方轉到 Infrastructure 去，畢竟存取資料庫算是外部引用的層級，能夠搬出去使用 DI 的方式我覺得才是最好的，這個也是要在想辦法處理的！
+以上就是目前覺得比較麻煩的困擾，而且目前也還沒做到 DomainEvent 的觸發，這部分也是要來好好思考怎麼處理跟同步狀態。 明天再繼續努力吧！加油
+目前寫下來還是覺得 C# 輕鬆許多，大概也是因為寫得久跟有完整的CQRS 和 DI 處理 ，不像 golang 這邊有想法卻不知道怎麼實作</description></item><item><title>20210809</title><link>https://www.k-derek.dev/posts/20210809/</link><pubDate>Mon, 09 Aug 2021 09:46:35 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210809/</guid><description>這幾天去參加了 Teddy 的 領域驅動設計與簡潔架構入門實作班
+雖然只有 8/5~8/8 短短的三天，但我覺得真的是收穫滿滿
+一開始 Teddy 會由 Event Storming 慢慢帶入 DDD，之後才會提到 CQRS &amp;amp; Clean Architecture
+Teddy 上課方式真的很生動又有趣，Teddy 會不斷地舉生活中的案例讓學員們更好地瞭解
+後面讓大家在做 Event Storming 時也是慢慢地給大家觀念之後才讓大家一步一步的實作
+進入 DDD 後也是用實例＋ EzKanban 讓大家了解各種戰術設計及拆分理由
+後面也就自然地帶入了 CQRS + Clean Architecture
+原本之前在實作的時候都會先用 Clean Architecture 拆分再去歸類 CQRS 項目，但其實應該是反過來
+由 Event Storming 得知有哪些 Command 跟 Domain Event 再去套用 CQRS 整個就明確了許多
+後面再把 Clean Architecture 分層加入，就整個串連了起來。
+以前在看 jasontaylordev/CleanArchitecture 這個專案，總是用 API 去套用，現在終於了解以前不明白的地方了
+上完 Teddy 的課後再重新看這專案，很簡單就明白了為何是這樣分層，也更清楚了 DomainEventHandler 處理的理由和 MediatR IPipelineBehavior 作用
+真的很慶幸自己決定花這個錢去上課，雖然不知道未來的團隊夥伴是否有用 DDD ， 但我相信我自己的專案可以用這個方式來重新處理過。</description></item><item><title>VSCode Dev Container 測試</title><link>https://www.k-derek.dev/posts/20210804/</link><pubDate>Wed, 04 Aug 2021 14:57:45 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210804/</guid><description>今天在測試 .net core 使用 vscode debug 的時候 發現了在遠端部分多出了 DevVolumes ! 但是我一開始也不知道這是什麼，就點了 Clone Repostry in Container Volume 後面就挑出 Clone a repository from GitHub in a Container Volume ! 沒想到這個可以直接把在 GitHub 上的專案直接用 Docker 執行起來!!! 這也太方便了吧! 如果已經有 Dockerfile 或 docker-compose 還可以直接使用，就把環境用 Docker 執行! 這個真的是福音啊! 終於可以不用再自己本機裝一堆東西，只要設定好 devcontainer.json 專案就帶著走啦! 只要有 vscode 哪裡都是相同的開發環境! 還有測試開啟 golang 跟 .net core 專案，也直接有 go-cli 跟 dotnet-cli 方便阿! 預設還有 git-cli 可以用!! 不過好像用 vscode 內建的就夠用了! 再來研究研究如何將 Volume 輸出到外部，或許這樣可以用 fork 來控制 git 項目!</description></item><item><title>Docker dotnet-symbol 安裝方式</title><link>https://www.k-derek.dev/posts/20210803/</link><pubDate>Tue, 03 Aug 2021 08:31:59 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210803/</guid><description>緣由 今日前同事在line上面問我說要如何安裝 dotnet-symbol ？ 因為他在安裝上出現下面錯誤
+Could not execute because the application was not found or a compatible .NET SDK is not installed. Possible reasons for this include: * You intended to execute a .NET program: The application &amp;#39;tool&amp;#39; does not exist. * You intended to execute a .NET SDK command: It was not possible to find any installed .NET SDKs. Install a .NET SDK from: https://aka.ms/dotnet-download 看了一下，他的環境是我之前用的 Docker ，裡面用的 base image 是 mcr.</description></item><item><title>20210728</title><link>https://www.k-derek.dev/posts/20210728/</link><pubDate>Wed, 28 Jul 2021 15:18:20 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210728/</guid><description>本日的 LeetCode 計畫中止
+為什麼呢? 因為我的電腦忽然掛掉拉!!
+因為我的IPhone忘記備份就直接用itunes更新
+結果居然給我更新失敗!
+然後想用電腦本身的還原檔還原，又因為先備份導致我的備份檔案被覆蓋掉!(無言)
+想說，算了，我直接找我模擬器裡面的遊戲記錄好了，結果切個系統 MBR 就給我死去!
+結果搞了兩天，連還原 USB 都用上了，最後卻是使用指令方式把系統救回來了!
+所以來說一下步驟吧
+此次的問題為 : Windows Boot Manager 的 device 出現 unknow
+處理過程:
+修復 mbr (失敗) 修復 BootLoader (失敗) 使用 USB 修復系統 (失敗) 思考項目:
+只留主硬碟，其他硬碟先移除，一樣無法啟動 發現 Windows Boot Manager 的 device 出現 unknow 使用 diskpart 查看硬碟資料，發現有兩個隱藏磁區，一個應該是紀錄 MBR 的 解決方式:
+先使用 diskpart 將隱藏磁區掛載起來 使用 dir 查看隱藏磁區內資料，果然發現了檔案 使用 bcdedit /set 設定 device 為有檔案的隱藏磁區 重新啟動，進入了 Windows ，果然成功了!</description></item><item><title>php - Add Two Numbers</title><link>https://www.k-derek.dev/posts/20210725/</link><pubDate>Sun, 25 Jul 2021 15:09:15 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210725/</guid><description>今天用php來改寫吧! Let&amp;rsquo;s Go!!!
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself. Example 1 : Input: l1 = [2,4,3], l2 = [5,6,4] Output: [7,0,8] Explanation: 342 + 465 = 807.</description></item><item><title>golang - Add Two Numbers</title><link>https://www.k-derek.dev/posts/20210724/</link><pubDate>Fri, 23 Jul 2021 17:23:13 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210724/</guid><description>今天寫的題目跟昨天一樣
+不過我們來改為用Golang 寫吧!
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself. Example 1 : Input: l1 = [2,4,3], l2 = [5,6,4] Output: [7,0,8] Explanation: 342 + 465 = 807.</description></item><item><title>一日一LeetCode 計畫</title><link>https://www.k-derek.dev/posts/20210723/</link><pubDate>Fri, 23 Jul 2021 17:23:13 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20210723/</guid><description>今天開始來實行一日一 LeetCode 計畫，除了讓自己更熟悉語言外，也想多練習更多的演算法
+一開始也想不到要寫什麼side project
+那麼就來刷刷 LeetCode 吧
+從一開始註冊到現在也過了超久的(我就懶)
+接下來會利用各種不同的語言寫同一個題目
+目前計畫的有 C# , golang , php , typescript
+希望能持續進步這些語言
+話不多說我們就開始吧
+題目為
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list. You may assume the two numbers do not contain any leading zero, except the number 0 itself.</description></item><item><title>20180324</title><link>https://www.k-derek.dev/posts/20180324/</link><pubDate>Sat, 24 Mar 2018 17:13:31 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180324/</guid><description>汲汲營營的離上次發文又過了半個月的時間了，經過現在已經到新公司上班快一個月了
+這一個月來，感覺真的超級被打擊信心
+除了環境還有一大堆的問題，一堆HardCode寫死的東西
+然後什麼說還有環境還有一大堆的問題呢?
+就是他ㄇㄉ我再跑一個網頁想看結果一直轉到ASP頁面中
+然後登入的使用者資訊一直被清空(剛好在查下拉選單的Bug，結果大部分的時間沒有在看下拉選單，原本就已經早到錯誤的地方，結果因為沒辦法驗證卡一堆時間，浪費我的時間)
+更慘烈的是，每天每天都有一堆的User issue 來壓榨時間
+SVN 也是美國跟台灣共用，也就是美國在開發，台灣也在開發
+兩邊資訊根本不同步
+程式碼內部也有一堆的問題
+邏輯運算的部分完全沒有邏輯
+命名亂的一蹋糊塗
+同樣的東西在不同地方命名不同 (對方表示:你需要站在使用方的角度看 我OS:去你的使用方，那個是顯示不一樣就好，內部可以統一嗎?)
+還有開會的時候一直問哪裡有問題?確定這樣就完成了嗎?是不是還有少什麼?
+幹!
+你有問題就直接說哪裡有問題，請直接說出你覺得不好還是有問題的地方可以嗎?
+浪費時間在那邊猜你的東西，我可以多掌握很多東西好嗎?
+工作到現在我還沒有一天是準時下班的，真心覺得我超級想離職的
+看到這些亂七八糟的東西我只想走人而已
+然後最近也丟了一些履歷出去，結果通通沒有下文
+第一次覺得每天這麼的心累</description></item><item><title>20180304</title><link>https://www.k-derek.dev/posts/20180304/</link><pubDate>Sun, 04 Mar 2018 22:42:29 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180304/</guid><description>最近剛到新公司兩天了 來說說我在這兩天看到的情況吧 後面應該有很多日子都是這些問題
+需求或問題直接信件寄送到IT群組，由IT自行認領，被略過或是無人認領就會石沉大海 開發環境建置是自己來處理、開發環境需要安裝那些東西文件中也沒寫清楚 維護的站台需要更換一堆dll 及 config內容，而這些居然是在開發環境建置的文件 使用SVN做版控，卻無任何控管，就感覺只是個放程式碼的地方，讓大家可以自己去COPY SVN拉下來的專案根本無法建置，使用的dll 版本不對，要從共用資料夾自己Copy dll 到 bin 下(為什麼直接到bin我也不懂) SVN 上的程式碼有人根本沒有commit完成，有方法找不到 開發上每個人都是直接網頁瀏覽，看一下就直接上傳程式，導致有類似aspx 中有控制項被拿掉可是cs檔中還有控制項事件 專案中ㄧ堆參考0的程式碼都還在 程式中不使用#if DEBUG 來做測試程式的區隔，而是使用config中建立一個測試key值 只為了求快速解決或是處理掉眼前的問題，而沒考慮到實際的問題點，永遠治標不治本 程式碼內部完全沒有任何註解 不停地製造新的輪子而不是使用統一工廠處理 最重要的一點 : 他媽的我到現在還是沒辦法建置他們的網頁(幹) 以上就是這兩天就可以看到的問題 我相信未來問題只會越來越多不會越來越少，所以，我是不是該重新找工作了?</description></item><item><title>20180223</title><link>https://www.k-derek.dev/posts/20180223/</link><pubDate>Fri, 23 Feb 2018 11:35:34 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180223/</guid><description>大家新年快樂阿~~
+離上次發文也經過了快一個月的增肥期XDDD
+回到正題經過上次修改後，為了避免字數過長的關係
+這次的修改把機器人改成每一間銀行就回應一則訊息
+然後也加上了時間
+PS.時間搞超級久，因為docker image預設時間是UTC +0:00，台灣必須+8:00
+最後也跑在Docker 上，目前感覺執行都很正常，之前不知道為什麼一直exit
+不過這幾日重建後看起來都很正常，目前在持續觀察看看囉~</description></item><item><title>20180202</title><link>https://www.k-derek.dev/posts/20180202/</link><pubDate>Fri, 02 Feb 2018 22:47:19 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180202/</guid><description>前幾日建置完Drone跟寫完PlurkBot後
+今天很開心的要來實驗Drone快速自動測試的功能
+隨便修改一個PlurkBot的檔案後Push!(能下Push就是爽!)
+再到Drone的後台去看，很好!很正常的執行起來了!
+我可以安安心心的看動畫等等來看結果
+1HR~過去了
+都看完兩集動畫了，結果應該也早就出來了吧
+疑~怎麼還在跑??
+不可能啊!
+這必定有鬼，難道跟最近鬼門開有關!?
+不可能，只好來查看一下log紀錄
+執行 docker logs XXXXXXX
+出現了!!!
+time=&amp;ldquo;2018-02-02T14:54:01Z&amp;rdquo; level=fatal msg=&amp;ldquo;DRONE_HOST is not properly configured&amp;rdquo;
+三小咚咚???
+HOST不對?
+不對阿~我明明就是按照網路的設定阿
+只有Port不一樣，怎麼會這樣呢?
+莫非我一定要用80，一定要這樣霸凌我嗎?
+可是80又被IIS占用
+只好另求他法這次來是是Nginx
+結果好像更悲劇 ERROR: for nginx Cannot start service nginx: OCI runtime create failed: container_linux.go:348: starting container process caused &amp;ldquo;process_linux.go:402: container init caused &amp;quot;rootfs_linux.go:58: mounting \&amp;quot;/host_mnt/d/Coding/Server/drone/default.conf\&amp;quot; to rootfs \&amp;quot;/var/lib/docker/overlay2/469fecfa64bb76c8c467ddfeea1084a1acdd3f279f1b38822d3a9458c243f71e/merged\&amp;quot; at \&amp;quot;/var/lib/docker/overlay2/469fecfa64bb76c8c467ddfeea1084a1acdd3f279f1b38822d3a9458c243f71e/merged/etc/nginx/conf.d/default.conf\&amp;quot; caused \&amp;quot;not a directory\&amp;quot;&amp;quot;&amp;quot;: unknown: Are you trying to mount a directory onto a file (or vice-versa)?</description></item><item><title>Drone遊玩心得(2)</title><link>https://www.k-derek.dev/posts/20180130/</link><pubDate>Tue, 30 Jan 2018 22:45:46 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180130/</guid><description>今天設置了 google domain 將Drone的網址設置為drone.konoha-derek.com -&amp;gt; konoha-derek.com:8081
+結果實驗的時候發現出現&amp;quot;The system failed to process your Login request&amp;quot;
+本來以為是drone站台錯誤造成的
+就去把drone重啟
+結果更悲劇了 orz~
+完全無法連線drone
+開始各種查詢，還以為是K8s的問題，不過查看的結果跟它一點毛關係也沒有
+原來是我在docker-compose.yml 中把DRONE_HOST跟9000PORT拿掉的關係
+加回去再重新建立就可以正常了~
+果然不能亂改阿!
+不過開頭的問題還是無解~~~~~
+明天再來研究好了!
+PS.今天被支付寶弄到氣炸!這就下次再來講述一篇好了XD</description></item><item><title>Drone遊玩心得</title><link>https://www.k-derek.dev/posts/20180128/</link><pubDate>Sun, 28 Jan 2018 19:45:46 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180128/</guid><description>這幾日安裝Drone的心得
+這次安裝Drone 參考了 https://yami.io/drone/
+不過安裝後因為文章是80port,而80port好像被IIS給佔用了(悲劇)
+只好換成8081
+後續想換成http://domain/drone
+發現docker好像不能用
+只好先用成http://domain:8081 去做設定
+其實中間在連線時一直404 orz~~
+domin最後也是用google domain設定
+然後路由器偷懶設定DMZ
+就這樣終於架設起來了
+後續要來完成plurk的機器人，然後來做測試了</description></item><item><title>讀書清單</title><link>https://www.k-derek.dev/posts/20180125/</link><pubDate>Thu, 25 Jan 2018 22:50:46 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/posts/20180125/</guid><description>前給自己規劃的讀書計畫
+從無到有，打造一個漂亮乾淨俐落的 RESTful API : https://ithelp.ithome.com.tw/articles/10191355 k8s 不自賞系列 : https://ithelp.ithome.com.tw/articles/10192193 Vuex 學習筆記系列 : https://ithelp.ithome.com.tw/articles/10190881 Go！從無到打造最佳行動網站 : https://ithelp.ithome.com.tw/users/20107302/ironman/1242 Kubernetes 30天學習筆記 : https://ithelp.ithome.com.tw/users/20103753/ironman/1590 爬蟲始終來自於墮性 : https://ithelp.ithome.com.tw/users/20107159/ironman/1325 讓我們來玩玩Docker吧~ : https://ithelp.ithome.com.tw/users/20107537/ironman/1417 30天Python學習分享路程 : https://ithelp.ithome.com.tw/users/20107812/ironman/1539 TDD - 紅燈，綠燈，重構，30天 TDD之路有你有我 : https://ithelp.ithome.com.tw/users/20107209/ironman/1278 區塊鏈報明牌 : https://ithelp.ithome.com.tw/users/20107460/ironman/1560 工程師職災的認識與預防 : https://ithelp.ithome.com.tw/users/20107803/ironman/1532 Java Web三十天學習歷程 : https://ithelp.ithome.com.tw/users/20107825/ironman/1564</description></item><item><title>歷年文章</title><link>https://www.k-derek.dev/archives/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>peter890701@gmail.com (Derek)</author><guid>https://www.k-derek.dev/archives/</guid><description>歷年文章</description></item></channel></rss>
