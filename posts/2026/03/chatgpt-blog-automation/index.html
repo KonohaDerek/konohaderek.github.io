@@ -1,0 +1,88 @@
+<!doctype html><html lang=zh-tw itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>打造 ChatGPT 對話自動整理與技術筆記發布流程 - 德瑞克小窩</title><meta name=description content="將 ChatGPT troubleshooting 對話自動整理成技術文章，並在遮罩機敏資料後自動提交到 GitHub Pages repo。 "><meta name=author content="Derek"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"德瑞克小窩","url":"https:\/\/www.k-derek.dev\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/www.k-derek.dev\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.k-derek.dev\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/www.k-derek.dev\/posts\/2026\/03\/chatgpt-blog-automation\/","name":"打造 chat gpt 對話自動整理與技術筆記發布流程"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Derek"},"headline":"打造 ChatGPT 對話自動整理與技術筆記發布流程","description":"背景 原始內容描述了一套適合技術筆記型 blog 的自動化流程，目標是把 ChatGPT 上的問題處理過程，在解決後整理成可發布的文章，並自動送進 GitHub repo，形成長期可累積的 troubleshooting archive 或 DevOps knowledge base。文件中以 GitHub Pages repo、n8n、GitHub Actions、OpenAI、Markdown 與 PDF 匯出等方式，逐步構成完整方案。\n問題 手動整理 ChatGPT 對話、移除雜訊、遮罩 token\/password\/IP\/email\/domain 等敏感資訊，再轉成可發佈的 Markdown 或 blog 文章，流程繁瑣且不易長期維護；若想穩定累積技術知識庫，需要一套可自動化、可重複執行、可直接整合到 repo 的處理流程。\n調查過程 先定義整體流程：ChatGPT conversation 匯出後，進入自動化管線，依序進行內容整理、敏感資料遮罩、文章生成、Markdown 輸出與 GitHub commit。 比較兩種實作方向：一種是 n8n workflow，透過 Webhook、遮罩節點、OpenAI 節點與 GitHub API 完成；另一種是 repo 內建 scripts 搭配 GitHub Actions，自動監聽 conversations 目錄中的檔案變化。 整理文章結構需求，固定輸出 title、background、problem、investigation、solution、lessons learned，並要求移除無關對話噪音、保留技術細節與必要 code block。 設計敏感資料遮罩規則，使用 regex 處理 Bearer ********、GitHub token、password、私有 IP、AWS key、email 與私有網域，避免機敏資訊進入文章或 commit 歷史。 規劃 repo 結構，例如 conversations、posts、scripts、prompt、.","inLanguage":"zh-tw","wordCount":363,"datePublished":"2026-03-09T00:00:00","dateModified":"2026-03-09T00:00:00","image":"https:\/\/www.k-derek.dev\/","keywords":["技術筆記, ChatGPT, GitHub Actions, Automation, DevOps, Troubleshooting"],"mainEntityOfPage":"https:\/\/www.k-derek.dev\/posts\/2026\/03\/chatgpt-blog-automation\/","publisher":{"@type":"Organization","name":"https:\/\/www.k-derek.dev\/","logo":{"@type":"ImageObject","url":"https:\/\/www.k-derek.dev\/","height":60,"width":60}}}</script><meta property="og:title" content="打造 ChatGPT 對話自動整理與技術筆記發布流程"><meta property="og:description" content="將 ChatGPT troubleshooting 對話自動整理成技術文章，並在遮罩機敏資料後自動提交到 GitHub Pages repo。 "><meta property="og:url" content="https://www.k-derek.dev/posts/2026/03/chatgpt-blog-automation/"><meta property="og:type" content="website"><meta property="og:site_name" content="德瑞克小窩"><meta name=twitter:title content="打造 ChatGPT 對話自動整理與技術筆記發布流程"><meta name=twitter:description content="將 ChatGPT troubleshooting 對話自動整理成技術文章，並在遮罩機敏資料後自動提交到 GitHub Pages repo。 "><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.111.3"><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css><link rel=stylesheet href=https://www.k-derek.dev/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://www.k-derek.dev/css/highlight.min.css><link rel=stylesheet href=https://www.k-derek.dev/css/codeblock.css></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>開關導覽</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=https://www.k-derek.dev/>德瑞克小窩</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=Tags href=/tags>Tags</a></li></ul></div></div></nav><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-md-10 col-md-offset-1"><div class=posts-heading><h1>打造 ChatGPT 對話自動整理與技術筆記發布流程</h1><hr class=small><h2 class=posts-subheading>將 ChatGPT troubleshooting 對話自動整理成技術文章，並在遮罩機敏資料後自動提交到 GitHub Pages repo。</h2></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-md-10 col-md-offset-1"><article role=main class=blog-post><h2 id=背景>背景</h2><p>原始內容描述了一套適合技術筆記型 blog 的自動化流程，目標是把 ChatGPT 上的問題處理過程，在解決後整理成可發布的文章，並自動送進 GitHub repo，形成長期可累積的 troubleshooting archive 或 DevOps knowledge base。文件中以 GitHub Pages repo、n8n、GitHub Actions、OpenAI、Markdown 與 PDF 匯出等方式，逐步構成完整方案。</p><h2 id=問題>問題</h2><p>手動整理 ChatGPT 對話、移除雜訊、遮罩 token/password/IP/email/domain 等敏感資訊，再轉成可發佈的 Markdown 或 blog 文章，流程繁瑣且不易長期維護；若想穩定累積技術知識庫，需要一套可自動化、可重複執行、可直接整合到 repo 的處理流程。</p><h2 id=調查過程>調查過程</h2><ol><li>先定義整體流程：ChatGPT conversation 匯出後，進入自動化管線，依序進行內容整理、敏感資料遮罩、文章生成、Markdown 輸出與 GitHub commit。</li><li>比較兩種實作方向：一種是 n8n workflow，透過 Webhook、遮罩節點、OpenAI 節點與 GitHub API 完成；另一種是 repo 內建 scripts 搭配 GitHub Actions，自動監聽 conversations 目錄中的檔案變化。</li><li>整理文章結構需求，固定輸出 title、background、problem、investigation、solution、lessons learned，並要求移除無關對話噪音、保留技術細節與必要 code block。</li><li>設計敏感資料遮罩規則，使用 regex 處理 Bearer ********、GitHub token、password、私有 IP、AWS key、email 與私有網域，避免機敏資訊進入文章或 commit 歷史。</li><li>規劃 repo 結構，例如 conversations、posts、scripts、prompt、.github/workflows，讓輸入資料、處理邏輯與輸出文章可分層管理。</li><li>加入延伸能力，例如 slugify、自動 tags、frontmatter、Mermaid diagram、SEO title、PDF archive，讓系統從單次整理升級為可長期維運的知識庫。</li></ol><h2 id=解決方案>解決方案</h2><p>建立一套以 GitHub repo 為核心的自動文章生成系統：</p><p>text
+ChatGPT conversation
+-> sanitize / mask sensitive data
+-> AI summarize and structure article
+-> generate Markdown post
+-> git add / commit / push
+-> GitHub Pages publish</p><p>建議 repo 結構：</p><p>text
+.
+├── conversations
+│ └── ghcr-error.json
+├── posts
+│ └── 2026
+│ └── 03
+├── scripts
+│ ├── generate_post.py
+│ ├── mask_sensitive.py
+│ ├── slugify.py
+│ └── tagger.py
+├── prompt
+│ └── blog_prompt.txt
+└── .github/workflows
+└── ai-blog.yml</p><p>敏感資料遮罩可先做成獨立模組：</p><p>python
+import re</p><p>def mask(text):
+rules = [
+(r"ghp_[A-Za-z0-9]+", &ldquo;ghp_<strong><strong><strong><strong>&rdquo;),
+(r"Bearer\s+[A-Za-z0-9.<em>-]+", &ldquo;Bearer ********&rdquo;),
+(r"AKIA[0-9A-Z]{16}", &ldquo;AWS_KEY</em></strong></strong></strong></strong>&rdquo;),
+(r"\b\d{1,3}(.\d{1,3}){3}\b", &ldquo;10.x.x.x&rdquo;),
+(r"password\s*=\s*\S+", &ldquo;password=********),
+(r&rdquo;[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+", &ldquo;user@example.com&rdquo;),
+]
+for pattern, replace in rules:
+text = re.sub(pattern, replace, text)
+return text</p><p>文章生成腳本讀取 conversations 檔案後，先遮罩內容，再把資料帶入 prompt，交給模型輸出 Markdown：</p><p>python
+import os
+import json
+from datetime import datetime
+from mask_sensitive import mask
+from slugify import slug
+from tagger import tags</p><p>file = os.listdir(&ldquo;conversations&rdquo;)[0]
+data = json.load(open(f"conversations/{file}"))
+title = data[&ldquo;title&rdquo;]
+conversation = mask(data[&ldquo;conversation&rdquo;])
+date = datetime.now().strftime("%Y-%m-%d")
+slug_name = slug(title)
+tag_list = tags(conversation)
+output = f"posts/{datetime.now().year}/{datetime.now().month:02d}/{slug_name}.md"</p><p>GitHub Actions 則在 push conversations 檔案後自動執行：</p><p>yaml
+name: AI Blog Generator
+on:
+push:
+paths:</p><ul><li>conversations/*.json
+jobs:
+generate:
+runs-on: ubuntu-latest
+steps:</li><li>uses: actions/checkout@v4</li><li>uses: actions/setup-python@v5
+with:
+python-version: &ldquo;3.11&rdquo;</li><li>name: Install deps
+run: pip install openai</li><li>name: Generate post
+env:
+OPENAI_API_KEY: ********
+run: python scripts/generate_post.py</li><li>name: Commit post
+run: |
+git config user.name &ldquo;ai-blog-bot&rdquo;
+git config user.email &ldquo;<a href=mailto:user@example.com>user@example.com</a>&rdquo;
+git add posts
+git commit -m &ldquo;AI generated blog&rdquo;
+git push</li></ul><p>若要保留原始對話作備份，也可先把 conversation 轉成 Markdown，再輸出 PDF，形成 chat.md、chat.pdf 與 blog.md 三份產物。整體方案可從 MVP 的手動匯入 conversation.txt 開始，再逐步升級成 JSON 輸入、自動 tagging、Mermaid 圖表與知識庫型架構。</p><h2 id=經驗總結>經驗總結</h2><ul><li>把 ChatGPT 對話變成可搜尋、可累積的技術資產，關鍵不只是生成文章，而是先定義一致的文章結構與輸出規格。</li><li>敏感資料遮罩必須前置處理，不能等到文章生成後才補救，否則機敏資訊可能已進入模型輸出或 git 歷史。</li><li>MVP 可以先用 conversation.txt + shell script 啟動，但長期來看以 JSON 輸入、scripts 分層與 GitHub Actions 觸發會更穩定。</li><li>slug、自動 tags、frontmatter 與目錄分層，會直接影響 blog 可維護性與知識庫成長品質。</li><li>同一份 conversation 可以同時輸出 Markdown 文章與 PDF archive，兼顧發佈需求與備份需求。</li></ul><h2 id=參考資料>參考資料</h2><ul><li><a href=https://github.com/KonohaDerek/konohaderek.github.io>KonohaDerek GitHub repository</a></li></ul><div class=blog-tags><a href=https://www.k-derek.dev//tags/%E6%8A%80%E8%A1%93%E7%AD%86%E8%A8%98/>技術筆記</a>&nbsp;
+<a href=https://www.k-derek.dev//tags/chatgpt/>ChatGPT</a>&nbsp;
+<a href=https://www.k-derek.dev//tags/github-actions/>GitHub Actions</a>&nbsp;
+<a href=https://www.k-derek.dev//tags/automation/>Automation</a>&nbsp;
+<a href=https://www.k-derek.dev//tags/devops/>DevOps</a>&nbsp;
+<a href=https://www.k-derek.dev//tags/troubleshooting/>Troubleshooting</a>&nbsp;</div><hr><section id=social-share><div class="list-inline footer-links"><div class=share-box aria-hidden=true><ul class=share><li><a href="//twitter.com/share?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f&amp;text=%e6%89%93%e9%80%a0%20ChatGPT%20%e5%b0%8d%e8%a9%b1%e8%87%aa%e5%8b%95%e6%95%b4%e7%90%86%e8%88%87%e6%8a%80%e8%a1%93%e7%ad%86%e8%a8%98%e7%99%bc%e5%b8%83%e6%b5%81%e7%a8%8b&amp;via=" target=_blank title="Share on Twitter"><i class="fab fa-twitter"></i></a></li><li><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f" target=_blank title="Share on Facebook"><i class="fab fa-facebook"></i></a></li><li><a href="//reddit.com/submit?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f&amp;title=%e6%89%93%e9%80%a0%20ChatGPT%20%e5%b0%8d%e8%a9%b1%e8%87%aa%e5%8b%95%e6%95%b4%e7%90%86%e8%88%87%e6%8a%80%e8%a1%93%e7%ad%86%e8%a8%98%e7%99%bc%e5%b8%83%e6%b5%81%e7%a8%8b" target=_blank title="Share on Reddit"><i class="fab fa-reddit"></i></a></li><li><a href="//www.linkedin.com/shareArticle?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f&amp;title=%e6%89%93%e9%80%a0%20ChatGPT%20%e5%b0%8d%e8%a9%b1%e8%87%aa%e5%8b%95%e6%95%b4%e7%90%86%e8%88%87%e6%8a%80%e8%a1%93%e7%ad%86%e8%a8%98%e7%99%bc%e5%b8%83%e6%b5%81%e7%a8%8b" target=_blank title="Share on LinkedIn"><i class="fab fa-linkedin"></i></a></li><li><a href="//www.stumbleupon.com/submit?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f&amp;title=%e6%89%93%e9%80%a0%20ChatGPT%20%e5%b0%8d%e8%a9%b1%e8%87%aa%e5%8b%95%e6%95%b4%e7%90%86%e8%88%87%e6%8a%80%e8%a1%93%e7%ad%86%e8%a8%98%e7%99%bc%e5%b8%83%e6%b5%81%e7%a8%8b" target=_blank title="Share on StumbleUpon"><i class="fab fa-stumbleupon"></i></a></li><li><a href="//www.pinterest.com/pin/create/button/?url=https%3a%2f%2fwww.k-derek.dev%2fposts%2f2026%2f03%2fchatgpt-blog-automation%2f&amp;description=%e6%89%93%e9%80%a0%20ChatGPT%20%e5%b0%8d%e8%a9%b1%e8%87%aa%e5%8b%95%e6%95%b4%e7%90%86%e8%88%87%e6%8a%80%e8%a1%93%e7%ad%86%e8%a8%98%e7%99%bc%e5%b8%83%e6%b5%81%e7%a8%8b" target=_blank title="Share on Pinterest"><i class="fab fa-pinterest"></i></a></li></ul></div></div></section><h4 class=see-also>其他相關</h4><ul><li><a href=/posts/2026/03/ghcr-error/>修正 GHCR manifest unknown 拉取失敗</a></li></ul></article><ul class="pager blog-pager"><li class=previous><a href=https://www.k-derek.dev/posts/2026/03/ghcr-error/ data-toggle=tooltip data-placement=top title="修正 GHCR manifest unknown 拉取失敗">&larr; 上一篇</a></li></ul></div></div></div><footer class=post-footer><div class=container><div class=row><div class="col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:peter890701@gmail.com title="Email me"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/https://github.com/KonohaDerek title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href title=RSS><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted">Derek
+&nbsp;&bull;&nbsp;&copy;
+2026
+&nbsp;&bull;&nbsp;
+<a href=https://www.k-derek.dev/>德瑞克小窩</a></p><p class="credits theme-by text-muted">由 <a href=https://gohugo.io>Hugo v0.111.3</a> 提供 &nbsp;&bull;&nbsp; 主題 <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> 移植自 <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script src=https://www.k-derek.dev/js/main.js></script>
+<script src=https://www.k-derek.dev/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><div class=back-to-top id=back-to-top><i class="fas fa-angle-double-up"></i></div></body></html>
