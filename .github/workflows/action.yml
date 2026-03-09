@@ -14,13 +14,22 @@ on:
       - prompt/**
       - scripts/**
       - .github/workflows/ai-blog.yml
+   workflow_run:
+    workflows: ["Generate Blog Posts"]
+    branches: [ master ]
+    types:
+      - completed
 
 jobs:
   build:
+    if: |
+      (github.event_name == 'push' && github.actor != 'github-actions[bot]') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
       with:
+        ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
         submodules: recursive  # Fetch Hugo themes recursively
         fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
