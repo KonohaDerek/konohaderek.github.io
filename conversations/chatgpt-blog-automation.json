@@ -1,0 +1,37 @@
+{
+    "title": "打造 ChatGPT 對話自動整理與技術筆記發布流程",
+    "slug": "chatgpt-blog-automation",
+    "date": "2026-03-09",
+    "tags": [
+        "ChatGPT",
+        "GitHub Actions",
+        "Automation",
+        "DevOps",
+        "Troubleshooting"
+    ],
+    "summary": "將 ChatGPT troubleshooting 對話自動整理成技術文章，並在遮罩機敏資料後自動提交到 GitHub Pages repo。 ",
+    "background": "原始內容描述了一套適合技術筆記型 blog 的自動化流程，目標是把 ChatGPT 上的問題處理過程，在解決後整理成可發布的文章，並自動送進 GitHub repo，形成長期可累積的 troubleshooting archive 或 DevOps knowledge base。文件中以 GitHub Pages repo、n8n、GitHub Actions、OpenAI、Markdown 與 PDF 匯出等方式，逐步構成完整方案。 ",
+    "problem": "手動整理 ChatGPT 對話、移除雜訊、遮罩 token/password/IP/email/domain 等敏感資訊，再轉成可發佈的 Markdown 或 blog 文章，流程繁瑣且不易長期維護；若想穩定累積技術知識庫，需要一套可自動化、可重複執行、可直接整合到 repo 的處理流程。 ",
+    "investigation_steps": [
+        "先定義整體流程：ChatGPT conversation 匯出後，進入自動化管線，依序進行內容整理、敏感資料遮罩、文章生成、Markdown 輸出與 GitHub commit。",
+        "比較兩種實作方向：一種是 n8n workflow，透過 Webhook、遮罩節點、OpenAI 節點與 GitHub API 完成；另一種是 repo 內建 scripts 搭配 GitHub Actions，自動監聽 conversations 目錄中的檔案變化。",
+        "整理文章結構需求，固定輸出 title、background、problem、investigation、solution、lessons learned，並要求移除無關對話噪音、保留技術細節與必要 code block。",
+        "設計敏感資料遮罩規則，使用 regex 處理 Bearer token、GitHub token、password、私有 IP、AWS key、email 與私有網域，避免機敏資訊進入文章或 commit 歷史。",
+        "規劃 repo 結構，例如 conversations、posts、scripts、prompt、.github/workflows，讓輸入資料、處理邏輯與輸出文章可分層管理。",
+        "加入延伸能力，例如 slugify、自動 tags、frontmatter、Mermaid diagram、SEO title、PDF archive，讓系統從單次整理升級為可長期維運的知識庫。 "
+    ],
+    "solution": "建立一套以 GitHub repo 為核心的自動文章生成系統：\n\ntext\nChatGPT conversation\n -> sanitize / mask sensitive data\n -> AI summarize and structure article\n -> generate Markdown post\n -> git add / commit / push\n -> GitHub Pages publish\n\n\n建議 repo 結構：\n\ntext\n.\n├── conversations\n│ └── ghcr-error.json\n├── posts\n│ └── 2026\n│ └── 03\n├── scripts\n│ ├── generate_post.py\n│ ├── mask_sensitive.py\n│ ├── slugify.py\n│ └── tagger.py\n├── prompt\n│ └── blog_prompt.txt\n└── .github/workflows\n └── ai-blog.yml\n\n\n敏感資料遮罩可先做成獨立模組：\n\npython\nimport re\n\ndef mask(text):\n rules = [\n (r\"ghp_[A-Za-z0-9]+\", \"ghp_********\"),\n (r\"Bearer\\s+[A-Za-z0-9\\._\\-]+\", \"Bearer ********\"),\n (r\"AKIA[0-9A-Z]{16}\", \"AWS_KEY_********\"),\n (r\"\\b\\d{1,3}(\\.\\d{1,3}){3}\\b\", \"10.x.x.x\"),\n (r\"password\\s*=\\s*\\S+\", \"password=********\"),\n (r\"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\", \"user@example.com\"),\n ]\n for pattern, replace in rules:\n text = re.sub(pattern, replace, text)\n return text\n\n\n文章生成腳本讀取 conversations 檔案後，先遮罩內容，再把資料帶入 prompt，交給模型輸出 Markdown：\n\npython\nimport os\nimport json\nfrom datetime import datetime\nfrom mask_sensitive import mask\nfrom slugify import slug\nfrom tagger import tags\n\nfile = os.listdir(\"conversations\")[0]\ndata = json.load(open(f\"conversations/{file}\"))\ntitle = data[\"title\"]\nconversation = mask(data[\"conversation\"])\ndate = datetime.now().strftime(\"%Y-%m-%d\")\nslug_name = slug(title)\ntag_list = tags(conversation)\noutput = f\"posts/{datetime.now().year}/{datetime.now().month:02d}/{slug_name}.md\"\n\n\nGitHub Actions 則在 push conversations 檔案後自動執行：\n\nyaml\nname: AI Blog Generator\non:\n push:\n paths:\n - conversations/*.json\njobs:\n generate:\n runs-on: ubuntu-latest\n steps:\n - uses: actions/checkout@v4\n - uses: actions/setup-python@v5\n with:\n python-version: \"3.11\"\n - name: Install deps\n run: pip install openai\n - name: Generate post\n env:\n OPENAI_API_KEY: ********\n run: python scripts/generate_post.py\n - name: Commit post\n run: |\n git config user.name \"ai-blog-bot\"\n git config user.email \"user@example.com\"\n git add posts\n git commit -m \"AI generated blog\"\n git push\n\n\n若要保留原始對話作備份，也可先把 conversation 轉成 Markdown，再輸出 PDF，形成 chat.md、chat.pdf 與 blog.md 三份產物。整體方案可從 MVP 的手動匯入 conversation.txt 開始，再逐步升級成 JSON 輸入、自動 tagging、Mermaid 圖表與知識庫型架構。 ",
+    "lessons_learned": [
+        "把 ChatGPT 對話變成可搜尋、可累積的技術資產，關鍵不只是生成文章，而是先定義一致的文章結構與輸出規格。",
+        "敏感資料遮罩必須前置處理，不能等到文章生成後才補救，否則機敏資訊可能已進入模型輸出或 git 歷史。",
+        "MVP 可以先用 conversation.txt + shell script 啟動，但長期來看以 JSON 輸入、scripts 分層與 GitHub Actions 觸發會更穩定。",
+        "slug、自動 tags、frontmatter 與目錄分層，會直接影響 blog 可維護性與知識庫成長品質。",
+        "同一份 conversation 可以同時輸出 Markdown 文章與 PDF archive，兼顧發佈需求與備份需求。 "
+    ],
+    "references": [
+        {
+            "title": "KonohaDerek GitHub repository",
+            "url": "https://github.com/KonohaDerek/konohaderek.github.io"
+        }
+    ]
+}
