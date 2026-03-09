@@ -37,11 +37,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- src/content/posts; then
+          git add src/content/posts
+
+          if git diff --cached --quiet; then
             echo "No generated post changes"
             exit 0
           fi
 
-          git add src/content/posts
           git commit -m "docs: generate posts from conversations"
           git push
