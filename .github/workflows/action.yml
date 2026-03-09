@@ -3,13 +3,7 @@ env:
   PUBLISH_DIR: src/public
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  contents: write
   
 on:
   # push 到 main 分支時會觸發
@@ -30,9 +24,6 @@ jobs:
         submodules: recursive  # Fetch Hugo themes recursively
         fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-
     - name: Create cname file
       run: echo "www.k-derek.dev" > src/static/CNAME
 
@@ -45,19 +36,10 @@ jobs:
     - name: Build
       run: hugo --minify --config=config.toml --source=src
 
-    - name: Upload Pages artifact
+    - name: Deploy to gh-pages
       if: success()
-      uses: actions/upload-pages-artifact@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
-        path: ${{ env.PUBLISH_DIR }}
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ${{ env.PUBLISH_DIR }}
