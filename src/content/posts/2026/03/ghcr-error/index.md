@@ -9,6 +9,7 @@ tags:
   - "GitHub"
   - "GHCR"
   - "Troubleshooting"
+  - "Linux"
 source: "conversations/ghcr-error.json"
 draft: false
 ---
