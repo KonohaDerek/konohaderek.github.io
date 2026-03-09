@@ -1,6 +1,15 @@
 name: DeployToGitHubPages
 env:
   PUBLISH_DIR: src/public
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
   
 on:
   # push 到 main 分支時會觸發
@@ -16,10 +25,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
-        submodules: true  # Fetch Hugo themes (true OR recursive)
+        submodules: recursive  # Fetch Hugo themes recursively
         fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
 
     - name: Create cname file
       run: echo "www.k-derek.dev" > src/static/CNAME
@@ -27,17 +39,25 @@ jobs:
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
       with:
-        hugo-version: 'latest'
+        hugo-version: '0.111.3'
         # extended: true
 
     - name: Build
       run: hugo --minify --config=config.toml --source=src
 
-    - name: GitHub Pages
+    - name: Upload Pages artifact
       if: success()
-      uses: crazy-max/ghaction-github-pages@v1.5.1
+      uses: actions/upload-pages-artifact@v3
       with:
-        target_branch: gh-pages
-        build_dir: ${{ env.PUBLISH_DIR }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        path: ${{ env.PUBLISH_DIR }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
