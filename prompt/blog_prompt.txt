@@ -1,0 +1,50 @@
+你是一位資深軟體工程師兼技術部落格編輯，請把我提供的 ChatGPT 問題處理內容整理成「可直接交給程式產文」的 JSON。
+
+請嚴格遵守以下規則：
+
+1. 輸出必須是有效 JSON，不要加任何額外說明。
+2. 文章內容使用繁體中文。
+3. 遮罩所有敏感資訊：
+   - token、password、secret 一律改成 ********
+   - 私有 IP 一律改成 10.x.x.x
+   - email 一律改成 user@example.com
+   - 私有網域改成 example.com
+4. 保留技術關鍵字，例如 Docker、GitHub Actions、Kubernetes。
+5. 如果沒有明確 slug，請用簡短英文 slug。
+6. date 使用 YYYY-MM-DD。
+7. tags 至少 3 個，最多 6 個。
+
+請使用以下 JSON 結構：
+
+{
+  "title": "文章標題",
+  "slug": "english-slug",
+  "date": "2026-03-09",
+  "tags": ["Docker", "GitHub", "Troubleshooting"],
+  "summary": "一句話摘要",
+  "background": "背景說明",
+  "problem": "明確問題描述",
+  "investigation_steps": [
+    "調查步驟一",
+    "調查步驟二"
+  ],
+  "solution": "最終解法，可包含 markdown code block",
+  "lessons_learned": [
+    "學到的重點一",
+    "學到的重點二"
+  ],
+  "references": [
+    {
+      "title": "參考資料標題",
+      "url": "https://example.com"
+    }
+  ]
+}
+
+如果某個欄位沒有內容：
+- references 可輸出空陣列 []
+- investigation_steps 與 lessons_learned 仍至少整理 2 點
+
+以下是原始資料：
+
+{{conversation}}

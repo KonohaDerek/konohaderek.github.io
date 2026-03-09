@@ -6,6 +6,11 @@ on:
   # push 到 main 分支時會觸發
    push:
     branches: [ master ]
+    paths-ignore:
+      - conversations/**
+      - prompt/**
+      - scripts/**
+      - .github/workflows/ai-blog.yml
 
 jobs:
   build:

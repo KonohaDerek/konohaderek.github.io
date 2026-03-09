@@ -1,0 +1,47 @@
+name: Generate Blog Posts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - conversations/**/*.json
+      - scripts/**/*.py
+      - prompt/blog_prompt.txt
+      - .github/workflows/ai-blog.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate-posts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate Hugo posts
+        run: python scripts/generate_post.py --input-dir conversations --output-dir src/content/posts
+
+      - name: Commit generated posts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- src/content/posts; then
+            echo "No generated post changes"
+            exit 0
+          fi
+
+          git add src/content/posts
+          git commit -m "docs: generate posts from conversations"
+          git push
