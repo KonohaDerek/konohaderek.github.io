@@ -28,4 +28,4 @@ Could not execute because the application was not found or a compatible .NET SDK
 處理過程:
 修復 mbr (失敗) 修復 BootLoader (失敗) 使用 USB 修復系統 (失敗) 思考項目:
 只留主硬碟，其他硬碟先移除，一樣無法啟動 發現 Windows Boot Manager 的 device 出現 unknow 使用 diskpart 查看硬碟資料，發現有兩個隱藏磁區，一個應該是紀錄 MBR 的 解決方式:
-先使用 diskpart 將隱藏磁區掛載起來 使用 dir 查看隱藏磁區內資料，果然發現了檔案 使用 bcdedit /set 設定 device 為有檔案的隱藏磁區 重新啟動，進入了 Windows ，果然成功了!</description></item></channel></rss>
+先使用 diskpart 將隱藏磁區掛載起來 使用 dir 查看隱藏磁區內資料，果然發現了檔案 使用 bcdedit /set 設定 device 為有檔案的隱藏磁區 重新啟動，進入了 Windows ，果然成功了!!!! 經過這次的事件，我覺得我應該要固定每個月或每半年來備份一次手機檔案好了，但是備份的檔案要丟哪好了? 不管了~修好電腦就是要先來看奧運拉!!! 小戴加油! 小天加油! 子維加油!</description></item></channel></rss>
